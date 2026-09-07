@@ -2,39 +2,22 @@
 
 Todos los cambios significativos del proyecto se documentan en este archivo.
 
-El formato sigue [Keep a Changelog](https://keepachangelog.com/es/1.0.0/).
-
----
-
 ## [Unreleased]
 
----
+## [0.1.2] - 2026-09-07
 
-## [0.1.1] - 2026-09-07
+### Estructura
 
-### Corregido
-- CRS proyectado para Lima: referencia `EPSG:32718` y estrategia UTM automática para operaciones métricas.
-- Validación y alineamiento de CRS antes de buffers y spatial joins.
-- Validación de coordenadas geográficas y renderizado cartográfico determinista.
-- Manejo de valores faltantes, densidades con áreas no positivas y validaciones de clustering.
-- Tipos de retorno y casos límite en evaluación y visualización.
-- Referencias de plantilla de Colombia sustituidas por un contrato canónico provisional para Perú.
-- Dependencias faltantes para Excel, Parquet y pruebas.
-- Configuración de Ruff, Black, pytest y pre-commit alineada con CI.
-
-### Agregado
-- Tests geoespaciales para coordenadas, buffers, CRS y mapas.
-- GitHub Actions con gates de Ruff, Black y pytest.
-- Reglas metodológicas de trazabilidad, estabilidad, sensibilidad y prevención de leakage.
-- Advertencias de gobernanza para repositorio público y licencia MIT.
-
----
+- Se redefine el repositorio como scaffold previo a cualquier análisis.
+- Se crean capas versionadas para `data/raw`, `external`, `interim` y `processed` mediante placeholders.
+- Se agregan `notebooks/`, `schemas/`, `reports/` y registro de decisiones.
+- Se elimina la preselección de clustering, métricas, feature engineering y visualizaciones.
+- Se reemplaza el diccionario provisional por una plantilla vacía basada en evidencia futura.
+- CI queda orientado a lint, formato y validación estructural.
+- Se eliminan dependencias específicas de ML hasta que la data y la pregunta justifiquen su incorporación.
 
 ## [0.1.0] - 2026-09-07
 
-### Inicializacion
-- Creacion del repositorio local.
-- Inicializacion de Git.
-- Estructura base del proyecto CODIP.
-- Directorios: data/, notebooks/, src/, paper/, reports/, tests/, docs/ y config/.
-- README, .gitignore, requirements.txt, pyproject.toml y documentacion inicial.
+### Inicialización
+
+- Creación de la estructura inicial del repositorio.

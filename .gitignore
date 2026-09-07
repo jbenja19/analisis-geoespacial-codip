@@ -1,13 +1,21 @@
 # ==========================================
-# DATOS (nunca subir datos crudos a Git)
+# DATOS REALES
 # ==========================================
-data/raw/
-data/interim/
-data/processed/
-data/external/
+data/raw/*
+!data/raw/.gitkeep
+data/external/*
+!data/external/.gitkeep
+data/interim/*
+!data/interim/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+
+# Formatos de datos que no deben versionarse por defecto
 *.csv
 *.xlsx
 *.xls
+*.parquet
+*.feather
 *.geojson
 *.shp
 *.shx
@@ -50,7 +58,7 @@ build/
 !.env.example
 
 # ==========================================
-# MODELOS Y ARTEFACTOS ML
+# ARTEFACTOS DE MODELOS FUTUROS
 # ==========================================
 *.pkl
 *.joblib
@@ -59,7 +67,7 @@ build/
 *.pth
 
 # ==========================================
-# IDEs
+# IDEs / SISTEMA
 # ==========================================
 .vscode/
 .idea/
@@ -69,13 +77,9 @@ build/
 Thumbs.db
 
 # ==========================================
-# LOGS
+# LOGS / CACHE
 # ==========================================
 logs/
 *.log
-
-# ==========================================
-# DVC
-# ==========================================
 .dvc/cache
 /tmp
