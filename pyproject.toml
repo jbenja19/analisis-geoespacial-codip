@@ -1,10 +1,10 @@
 [build-system]
 requires = ["setuptools>=68", "wheel"]
-build-backend = "setuptools.backends.legacy:build"
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "analisis-geoespacial-codip"
-version = "0.1.0"
+version = "0.1.1"
 description = "Segmentacion de Proyectos Inmobiliarios mediante Analisis Geoespacial"
 authors = [{ name = "CODIP Team" }]
 license = { text = "MIT" }
@@ -13,6 +13,8 @@ readme = "README.md"
 
 [tool.ruff]
 line-length = 88
+
+[tool.ruff.lint]
 select = ["E", "F", "I", "UP"]
 
 [tool.black]
@@ -21,3 +23,5 @@ target-version = ["py310"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-ra"
