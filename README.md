@@ -82,6 +82,12 @@ python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
 
+Para contribuir o ejecutar CI localmente:
+
+```bash
+python -m pip install -r requirements-dev.txt
+```
+
 En Windows PowerShell:
 
 ```powershell

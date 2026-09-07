@@ -29,9 +29,10 @@ source .venv/bin/activate
 cp .env.example .env
 ```
 
-## Pre-commit
+## Herramientas de desarrollo
 
 ```bash
+python -m pip install -r requirements-dev.txt
 python -m pre_commit install
 ```
 
