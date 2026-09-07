@@ -4,6 +4,7 @@ geo_plots.py
 Visualizaciones geoespaciales de los clusters
 de proyectos inmobiliarios.
 """
+
 import geopandas as gpd
 import matplotlib.cm as cm
 import matplotlib.pyplot as plt
