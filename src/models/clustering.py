@@ -51,9 +51,7 @@ def run_dbscan(
     return labels, model
 
 
-def run_hdbscan(
-    X: np.ndarray, min_cluster_size: int = 10
-) -> tuple[np.ndarray, object]:
+def run_hdbscan(X: np.ndarray, min_cluster_size: int = 10) -> tuple[np.ndarray, object]:
     """Aplica HDBSCAN y retorna ``(labels, model)``."""
     if not HDBSCAN_AVAILABLE:
         raise ImportError("Instala hdbscan: pip install hdbscan")
