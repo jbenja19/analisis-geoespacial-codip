@@ -1,34 +1,39 @@
-"""
-io_utils.py
------------
-Utilidades de lectura y escritura de archivos para el proyecto CODIP.
-"""
-import json
+"""Utilidades de escritura de artefactos del proyecto."""
+
 import pickle
-import pandas as pd
-import geopandas as gpd
 from pathlib import Path
+
+import geopandas as gpd
+import pandas as pd
 from loguru import logger
 
 
 def save_dataframe(df: pd.DataFrame, filepath: str | Path, fmt: str = "csv") -> None:
-    """Guarda un DataFrame en el formato especificado."""
-    Path(filepath).parent.mkdir(parents=True, exist_ok=True)
+    """Guarda un DataFrame como CSV o Parquet."""
+    path = Path(filepath)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fmt = fmt.lower().strip()
     if fmt == "csv":
-        df.to_csv(filepath, index=False)
+        df.to_csv(path, index=False)
     elif fmt == "parquet":
-        df.to_parquet(filepath, index=False)
-    logger.info(f"DataFrame guardado en: {filepath}")
+        df.to_parquet(path, index=False)
+    else:
+        raise ValueError(f"Formato no soportado: {fmt}. Usa csv o parquet.")
+    logger.info(f"DataFrame guardado en: {path}")
 
 
-def save_model(model, filepath: str | Path) -> None:
-    """Serializa y guarda un modelo con pickle."""
-    with open(filepath, "wb") as f:
-        pickle.dump(model, f)
-    logger.info(f"Modelo guardado en: {filepath}")
+def save_model(model: object, filepath: str | Path) -> None:
+    """Serializa un modelo local con pickle."""
+    path = Path(filepath)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("wb") as file:
+        pickle.dump(model, file)
+    logger.info(f"Modelo guardado en: {path}")
 
 
 def save_geojson(gdf: gpd.GeoDataFrame, filepath: str | Path) -> None:
     """Guarda un GeoDataFrame como GeoJSON."""
-    gdf.to_file(filepath, driver="GeoJSON")
-    logger.info(f"GeoJSON guardado en: {filepath}")
+    path = Path(filepath)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    gdf.to_file(path, driver="GeoJSON")
+    logger.info(f"GeoJSON guardado en: {path}")
