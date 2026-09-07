@@ -20,9 +20,8 @@ def load_geodataframe(
     """Carga datos geoespaciales y reproyecta solo si el CRS fuente es conocido."""
     gdf = gpd.read_file(filepath)
     _require_crs(gdf, "El archivo geoespacial")
-    if (
-        target_crs is not None
-        and CRS.from_user_input(gdf.crs) != CRS.from_user_input(target_crs)
+    if target_crs is not None and CRS.from_user_input(gdf.crs) != CRS.from_user_input(
+        target_crs
     ):
         gdf = gdf.to_crs(target_crs)
     logger.info(f"GeoDataFrame cargado: {len(gdf)} registros | CRS: {gdf.crs}")
