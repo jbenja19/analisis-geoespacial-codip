@@ -4,6 +4,7 @@ plots.py
 Graficos estadisticos para el analisis y presentacion
 de resultados del clustering de proyectos inmobiliarios.
 """
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
