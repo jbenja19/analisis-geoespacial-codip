@@ -2,27 +2,25 @@
 
 ## Instalar dependencias
 install:
-	pip install -r requirements.txt
+	python -m pip install -r requirements.txt
 
 ## Crear entorno virtual
 env:
 	python -m venv .venv
 
-## Limpiar archivos temporales
+## Limpiar caches de Python/Jupyter de forma portable
 clean:
-	find . -type f -name "*.pyc" -delete
-	find . -type d -name "__pycache__" -exec rm -rf {} +
-	find . -type d -name ".ipynb_checkpoints" -exec rm -rf {} +
+	python -c "from pathlib import Path; import shutil; [p.unlink() for p in Path('.').rglob('*.pyc') if p.is_file()]; [shutil.rmtree(p, ignore_errors=True) for p in list(Path('.').rglob('__pycache__')) + list(Path('.').rglob('.ipynb_checkpoints'))]"
 
-## Ejecutar linter
+## Ejecutar linters
 lint:
-	ruff check src/ tests/
-	black --check src/ tests/
+	python -m ruff check src/ tests/
+	python -m black --check src/ tests/
 
 ## Ejecutar tests
 test:
-	pytest tests/ -v
+	python -m pytest tests/ -v
 
 ## Iniciar JupyterLab
 notebooks:
-	jupyter lab
+	python -m jupyter lab
