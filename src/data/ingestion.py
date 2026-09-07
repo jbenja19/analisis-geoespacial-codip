@@ -4,8 +4,9 @@ ingestion.py
 Modulo para la carga e ingesta de datos de proyectos inmobiliarios
 desde distintas fuentes (CSV, Excel, APIs, bases de datos, etc.).
 """
-import pandas as pd
 from pathlib import Path
+
+import pandas as pd
 from loguru import logger
 
 
