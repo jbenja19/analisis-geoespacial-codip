@@ -1,0 +1,25 @@
+project:
+  name: analisis-geoespacial-codip
+  version: "0.1.0"
+  description: "Segmentacion de Proyectos Inmobiliarios - CODIP"
+
+paths:
+  data_raw: data/raw
+  data_interim: data/interim
+  data_processed: data/processed
+  data_external: data/external
+  reports: reports
+  paper_figures: paper/figures
+
+geospatial:
+  crs_default: "EPSG:4326"
+  crs_projected: "EPSG:32617"
+
+clustering:
+  algorithms: ["kmeans", "dbscan", "hdbscan"]
+  n_clusters_range: [2, 10]
+  random_state: 42
+
+logging:
+  level: INFO
+  format: "{time} | {level} | {message}"
