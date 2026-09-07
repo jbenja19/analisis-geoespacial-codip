@@ -6,9 +6,9 @@ escalado, PCA y reduccion de dimensionalidad.
 """
 import numpy as np
 import pandas as pd
-from sklearn.preprocessing import StandardScaler, MinMaxScaler
-from sklearn.decomposition import PCA
 from loguru import logger
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import MinMaxScaler, StandardScaler
 
 
 def scale_features(df: pd.DataFrame, method: str = "standard") -> tuple:
@@ -28,5 +28,8 @@ def apply_pca(X: np.ndarray, n_components: float = 0.95) -> tuple:
     """Aplica PCA. n_components puede ser int o float (varianza explicada)."""
     pca = PCA(n_components=n_components, random_state=42)
     X_pca = pca.fit_transform(X)
-    logger.info(f"PCA: {X_pca.shape[1]} componentes | Varianza explicada: {pca.explained_variance_ratio_.sum():.3f}")
+    explained = pca.explained_variance_ratio_.sum()
+    logger.info(
+        f"PCA: {X_pca.shape[1]} componentes | Varianza explicada: {explained:.3f}"
+    )
     return X_pca, pca
