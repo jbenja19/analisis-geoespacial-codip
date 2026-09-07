@@ -3,6 +3,7 @@ config.py
 ---------
 Gestion de configuracion del proyecto mediante YAML y variables de entorno.
 """
+
 import os
 from pathlib import Path
 
