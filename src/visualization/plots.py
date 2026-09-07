@@ -4,13 +4,15 @@ plots.py
 Graficos estadisticos para el analisis y presentacion
 de resultados del clustering de proyectos inmobiliarios.
 """
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 import seaborn as sns
 
 
-def plot_cluster_distribution(labels: np.ndarray, title: str = "Distribucion de Clusters") -> None:
+def plot_cluster_distribution(
+    labels: np.ndarray, title: str = "Distribucion de Clusters"
+) -> plt.Figure:
     """Grafica la distribucion de tamanio de cada cluster."""
     unique, counts = np.unique(labels, return_counts=True)
     fig, ax = plt.subplots(figsize=(8, 4))
@@ -22,7 +24,9 @@ def plot_cluster_distribution(labels: np.ndarray, title: str = "Distribucion de 
     return fig
 
 
-def plot_elbow(inertias: list, k_range: range, title: str = "Metodo del Codo") -> None:
+def plot_elbow(
+    inertias: list[float], k_range: range, title: str = "Metodo del Codo"
+) -> plt.Figure:
     """Grafica el metodo del codo para seleccion de K en KMeans."""
     fig, ax = plt.subplots(figsize=(7, 4))
     ax.plot(list(k_range), inertias, marker="o", linewidth=2)
@@ -33,7 +37,9 @@ def plot_elbow(inertias: list, k_range: range, title: str = "Metodo del Codo") -
     return fig
 
 
-def plot_feature_importance(feature_names: list, importances: np.ndarray) -> None:
+def plot_feature_importance(
+    feature_names: list[str], importances: np.ndarray
+) -> plt.Figure:
     """Grafica la importancia de features en la segmentacion."""
     df = pd.DataFrame({"feature": feature_names, "importance": importances})
     df = df.sort_values("importance", ascending=False)
