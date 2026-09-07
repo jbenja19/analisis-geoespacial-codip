@@ -1,7 +1,7 @@
 project:
   name: analisis-geoespacial-codip
-  version: "0.1.0"
-  description: "Segmentacion de Proyectos Inmobiliarios - CODIP"
+  version: "0.1.1"
+  description: "Segmentacion geoespacial de proyectos inmobiliarios - CODIP"
 
 paths:
   data_raw: data/raw
@@ -13,7 +13,11 @@ paths:
 
 geospatial:
   crs_default: "EPSG:4326"
-  crs_projected: "EPSG:32617"
+  # Referencia métrica apropiada para Lima Metropolitana (UTM 18S).
+  # Para buffers/distancias, el código usa auto-UTM por defecto para evitar
+  # aplicar esta zona fija a datasets ubicados fuera de Lima.
+  crs_projected_lima: "EPSG:32718"
+  projected_crs_strategy: "auto_utm"
 
 clustering:
   algorithms: ["kmeans", "dbscan", "hdbscan"]
