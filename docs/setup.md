@@ -1,61 +1,55 @@
-# Guia de Instalacion - CODIP
+# Guía de instalación
 
-## Requisitos del Sistema
+## Requisitos
 
 - Python 3.10 o superior
 - Git
-- 8 GB RAM recomendados para datasets grandes
-- (Opcional) GDAL para operaciones avanzadas con rasters
 
-## Instalacion Paso a Paso
-
-### 1. Clonar el repositorio
+## Crear el entorno
 
 ```bash
-git clone https://github.com/<tu-usuario>/analisis-geoespacial-codip.git
+git clone https://github.com/jbenja19/analisis-geoespacial-codip.git
 cd analisis-geoespacial-codip
-```
-
-### 2. Crear entorno virtual
-
-```bash
-# Con venv (incluido en Python)
 python -m venv .venv
-.venv\Scripts\activate      # Windows
-source .venv/bin/activate   # Linux / Mac
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
 ```
 
-### 3. Instalar dependencias
+### Windows PowerShell
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+Copy-Item .env.example .env
+```
+
+### Linux/macOS
 
 ```bash
-pip install --upgrade pip
-pip install -r requirements.txt
+source .venv/bin/activate
+cp .env.example .env
 ```
 
-### 4. Configurar variables de entorno
+## Herramientas de desarrollo
 
 ```bash
-copy .env.example .env     # Windows
-# cp .env.example .env    # Linux / Mac
+python -m pip install -r requirements-dev.txt
+python -m pre_commit install
 ```
-Edita `.env` con tus claves de API y rutas locales.
 
-### 5. Instalar pre-commit hooks (opcional pero recomendado)
+## Verificación del scaffold
 
 ```bash
-pre-commit install
+python -m ruff check src/ tests/
+python -m black --check src/ tests/
+python -m pytest tests/ -v
 ```
 
-### 6. Iniciar JupyterLab
+Estos comandos verifican calidad y estructura del repositorio. No ejecutan ningún análisis de datos.
+
+## JupyterLab
 
 ```bash
-jupyter lab
+python -m jupyter lab
 ```
 
-## Verificacion de la Instalacion
-
-```python
-import geopandas as gpd
-import sklearn
-print("Instalacion exitosa!")
-```
+`notebooks/` está deliberadamente vacío de análisis hasta disponer de data real.

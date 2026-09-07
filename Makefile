@@ -1,28 +1,30 @@
-.PHONY: install env clean lint test notebooks
+.PHONY: install install-dev env clean lint test notebooks
 
-## Instalar dependencias
+## Instalar dependencias de trabajo
 install:
-	pip install -r requirements.txt
+	python -m pip install -r requirements.txt
+
+## Instalar herramientas de calidad/desarrollo
+install-dev:
+	python -m pip install -r requirements-dev.txt
 
 ## Crear entorno virtual
 env:
 	python -m venv .venv
 
-## Limpiar archivos temporales
+## Limpiar caches de Python/Jupyter
 clean:
-	find . -type f -name "*.pyc" -delete
-	find . -type d -name "__pycache__" -exec rm -rf {} +
-	find . -type d -name ".ipynb_checkpoints" -exec rm -rf {} +
+	python -c "from pathlib import Path; import shutil; [p.unlink() for p in Path('.').rglob('*.pyc') if p.is_file()]; [shutil.rmtree(p, ignore_errors=True) for p in list(Path('.').rglob('__pycache__')) + list(Path('.').rglob('.ipynb_checkpoints'))]"
 
-## Ejecutar linter
+## Validar estilo
 lint:
-	ruff check src/ tests/
-	black --check src/ tests/
+	python -m ruff check src/ tests/
+	python -m black --check src/ tests/
 
-## Ejecutar tests
+## Ejecutar solo tests estructurales actuales
 test:
-	pytest tests/ -v
+	python -m pytest tests/ -v
 
-## Iniciar JupyterLab
+## Abrir JupyterLab cuando haya trabajo exploratorio
 notebooks:
-	jupyter lab
+	python -m jupyter lab

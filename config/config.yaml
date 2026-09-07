@@ -1,24 +1,31 @@
 project:
   name: analisis-geoespacial-codip
-  version: "0.1.0"
-  description: "Segmentacion de Proyectos Inmobiliarios - CODIP"
+  version: "0.1.2"
+  stage: scaffold
+  description: "Estructura base para iniciar el análisis cuando lleguen las fuentes raw"
 
 paths:
   data_raw: data/raw
+  data_external: data/external
   data_interim: data/interim
   data_processed: data/processed
-  data_external: data/external
+  schemas_source: schemas/source
+  schemas_canonical: schemas/canonical
+  notebooks: notebooks
   reports: reports
-  paper_figures: paper/figures
+
+raw_data:
+  immutable: true
+  overwrite_allowed: false
 
 geospatial:
-  crs_default: "EPSG:4326"
-  crs_projected: "EPSG:32617"
+  source_crs: null
+  analysis_crs: null
 
-clustering:
-  algorithms: ["kmeans", "dbscan", "hdbscan"]
-  n_clusters_range: [2, 10]
-  random_state: 42
+analysis:
+  unit_of_analysis: null
+  temporal_scope: null
+  methodology: null
 
 logging:
   level: INFO

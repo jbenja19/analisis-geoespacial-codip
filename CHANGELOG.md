@@ -2,25 +2,22 @@
 
 Todos los cambios significativos del proyecto se documentan en este archivo.
 
-El formato sigue [Keep a Changelog](https://keepachangelog.com/es/1.0.0/).
-
----
-
 ## [Unreleased]
 
-### Agregado
-- Estructura inicial del repositorio
-- README con descripcion del proyecto y nota sobre estructura dinamica
-- .gitignore, requirements.txt, pyproject.toml
-- Directorios: data/, notebooks/, src/, paper/, reports/, tests/, docs/, config/
-- Placeholders con descripcion en cada modulo de src/
-- Documentacion inicial en docs/
+## [0.1.2] - 2026-09-07
 
----
+### Estructura
+
+- Se redefine el repositorio como scaffold previo a cualquier análisis.
+- Se crean capas versionadas para `data/raw`, `external`, `interim` y `processed` mediante placeholders.
+- Se agregan `notebooks/`, `schemas/`, `reports/` y registro de decisiones.
+- Se elimina la preselección de clustering, métricas, feature engineering y visualizaciones.
+- Se reemplaza el diccionario provisional por una plantilla vacía basada en evidencia futura.
+- CI queda orientado a lint, formato y validación estructural.
+- Se eliminan dependencias específicas de ML hasta que la data y la pregunta justifiquen su incorporación.
 
 ## [0.1.0] - 2026-09-07
 
-### Inicializacion
-- Creacion del repositorio local
-- Inicializacion de Git
-- Estructura base del proyecto CODIP
+### Inicialización
+
+- Creación de la estructura inicial del repositorio.
