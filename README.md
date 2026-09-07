@@ -1,192 +1,149 @@
-# Analisis Geoespacial - CODIP
+# Análisis Geoespacial - CODIP
 
-> Segmentacion de Proyectos Inmobiliarios mediante Analisis Geoespacial y Ciencia de Datos
+> Segmentación de proyectos inmobiliarios mediante análisis geoespacial y ciencia de datos.
 
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Status](https://img.shields.io/badge/Status-En%20Desarrollo-orange)]()
-[![DVC](https://img.shields.io/badge/Data%20Version%20Control-DVC-945DD6?logo=dvc)](https://dvc.org/)
+[![Status](https://img.shields.io/badge/Status-Base%20t%C3%A9cnica%20inicial-orange)]()
 
----
+## Propósito
 
-## Descripcion del Proyecto
+Este repositorio contiene la base técnica y metodológica de un proyecto de
+análisis geoespacial aplicado al mercado inmobiliario para **CODIP,
+Confederación de Desarrolladores Inmobiliarios del Perú**.
 
-Este repositorio contiene el trabajo de investigacion y desarrollo del proyecto **CODIP** (Clasificacion y Organizacion de Datos de Proyectos Inmobiliarios), cuyo objetivo es disenar y estandarizar una metodologia de **analisis geoespacial para la segmentacion de proyectos inmobiliarios** en funcion de sus caracteristicas fisicas, socioeconomicas y territoriales.
+El objetivo es construir y validar una metodología reproducible para segmentar
+proyectos inmobiliarios a partir de características físicas, comerciales,
+socioeconómicas y territoriales, dejando trazabilidad suficiente para un paper
+técnico/académico.
 
-El producto final es un **paper academico/tecnico** que documente y valide esta metodologia como estandar reproducible para el sector inmobiliario.
+**Estado actual:** scaffold funcional. Ya existen módulos iniciales y tests, pero
+la metodología todavía debe validarse con las fuentes reales antes de interpretar
+clusters como resultados de negocio o como una taxonomía definitiva.
 
-### Objetivos
+## Principios del proyecto
 
-- Recopilar y procesar datos de proyectos inmobiliarios con atributos geoespaciales.
-- Identificar variables relevantes (localizacion, tipologia, area, densidad, entorno, etc.).
-- Aplicar tecnicas de clustering y segmentacion no supervisada para clasificar tipologias.
-- Validar los resultados con metricas estadisticas y analisis geoespacial.
-- Producir un paper que estandarice esta metodologia como marco de referencia reproducible.
+- **Source truth primero:** no se inventan columnas ni semánticas faltantes.
+- **CRS explícito:** WGS84 (`EPSG:4326`) para intercambio/visualización; operaciones
+  métricas en un CRS proyectado apropiado.
+- **Sin distancias en grados:** buffers, áreas y distancias no se calculan directamente
+  sobre latitud/longitud.
+- **Reproducibilidad:** configuración, transformaciones, tests y decisiones deben quedar versionadas.
+- **Validación múltiple:** no se selecciona un clustering únicamente por silhouette u otra métrica interna.
+- **No causalidad:** los clusters describen estructura empírica; no prueban relaciones causales.
 
----
+## Convención geoespacial
 
-## Nota sobre la Estructura del Repositorio
+Para Lima Metropolitana, WGS 84 / UTM zone 18S corresponde a `EPSG:32718` y usa
+metros. Sin embargo, el código de buffers usa **estimación UTM automática por
+defecto**, para no aplicar una zona fija a observaciones ubicadas en otra parte
+del Perú.
 
-> **Esta estructura es dinamica, no estatica.**
+## Estructura
 
-El arbol de directorios presentado aqui representa el **punto de partida** del proyecto, basado en buenas practicas de ciencia de datos y analisis geoespacial. Sin embargo, **esta sujeto a evolucionar** conforme avance el desarrollo:
-
-- Se pueden agregar nuevos modulos, carpetas o sub-proyectos segun las necesidades que emerjan.
-- Algunas carpetas pueden renombrarse, reorganizarse o eliminarse si el flujo de trabajo lo requiere.
-- Cualquier cambio estructural significativo se registrara en [`CHANGELOG.md`](CHANGELOG.md).
-
-**Esta flexibilidad es intencional**: los proyectos de ciencia de datos tienen naturaleza exploratoria y sus necesidades evolucionan con los datos y los hallazgos.
-
----
-
-## Estructura del Repositorio
-
-```
+```text
 analisis-geoespacial-codip/
-|
-+-- data/                        # Datos del proyecto (NO se versiona en Git)
-|   +-- raw/                     # Datos originales sin modificar (inmutables)
-|   +-- interim/                 # Datos en transformacion intermedia
-|   +-- processed/               # Datos listos para modelado
-|   +-- external/                # Datos externos (shapefiles, APIs, etc.)
-|
-+-- notebooks/                   # Jupyter Notebooks de exploracion y analisis
-|   +-- 01_exploratory/          # EDA: exploracion y descripcion inicial
-|   +-- 02_preprocessing/        # Limpieza, transformacion y feature engineering
-|   +-- 03_geospatial/           # Analisis geoespacial y visualizaciones de mapas
-|   +-- 04_modeling/             # Clustering, segmentacion y evaluacion de modelos
-|   +-- 05_reporting/            # Resultados finales y graficos para el paper
-|
-+-- src/                         # Codigo fuente modular y reutilizable
-|   +-- data/
-|   |   +-- ingestion.py         # Carga de datos desde fuentes
-|   |   +-- cleaning.py          # Limpieza y validacion de datos
-|   |   +-- feature_engineering.py
-|   +-- geospatial/
-|   |   +-- spatial_ops.py       # Operaciones espaciales (joins, buffers, etc.)
-|   |   +-- geocoding.py         # Geocodificacion y manejo de coordenadas
-|   |   +-- maps.py              # Generacion de visualizaciones cartograficas
-|   +-- models/
-|   |   +-- clustering.py        # Algoritmos: KMeans, DBSCAN, HDBSCAN
-|   |   +-- evaluation.py        # Metricas: silhouette, Davies-Bouldin
-|   |   +-- preprocessing.py     # Escalado, PCA, reduccion de dimensionalidad
-|   +-- visualization/
-|   |   +-- plots.py             # Graficos estadisticos
-|   |   +-- geo_plots.py         # Mapas y visualizaciones geoespaciales
-|   +-- utils/
-|       +-- config.py            # Gestion de configuracion
-|       +-- io_utils.py          # Funciones de lectura/escritura
-|
-+-- paper/                       # Documento final: paper academico/tecnico
-|   +-- draft/                   # Borradores del paper
-|   +-- figures/                 # Figuras y mapas exportados para el paper
-|   +-- references/              # Referencias bibliograficas (.bib)
-|   +-- final/                   # Version final del paper (PDF, docx)
-|
-+-- reports/                     # Reportes intermedios de analisis
-|   +-- figures/
-|   +-- summaries/
-|
-+-- tests/                       # Pruebas unitarias del codigo fuente
-+-- docs/                        # Documentacion tecnica
-|   +-- methodology.md           # Descripcion de la metodologia
-|   +-- data_dictionary.md       # Diccionario de variables y datasets
-|   +-- setup.md                 # Guia de instalacion detallada
-|   +-- decisions/               # Registro de decisiones tecnicas (ADR)
-|
-+-- config/                      # Archivos de configuracion
-|   +-- config.yaml
-|   +-- logging.yaml
-|
-+-- .env.example
-+-- .gitignore
-+-- .pre-commit-config.yaml
-+-- CHANGELOG.md
-+-- LICENSE
-+-- Makefile
-+-- pyproject.toml
-+-- requirements.txt
-+-- README.md
+├── data/                  # Ignorado por Git: raw/interim/processed/external
+├── notebooks/             # Exploración y análisis reproducible
+├── src/
+│   ├── data/              # Ingesta, limpieza y feature engineering
+│   ├── geospatial/        # CRS, joins, buffers, geocodificación y mapas
+│   ├── models/            # Preprocesamiento, clustering y evaluación
+│   ├── visualization/     # Gráficos estadísticos/geoespaciales
+│   └── utils/             # Configuración e I/O
+├── tests/                 # Tests unitarios y geoespaciales
+├── docs/                  # Metodología, diccionario y setup
+├── paper/                 # Outline, referencias, figuras y versiones del paper
+├── config/                # Configuración reproducible
+└── .github/workflows/     # CI
 ```
 
----
+La estructura puede evolucionar con el proyecto, pero los cambios relevantes deben
+documentarse.
 
-## Inicio Rapido
+## Instalación
 
-### Pre-requisitos
+### Requisitos
 
 - Python 3.10+
 - Git
 
-### Instalacion
+### Windows PowerShell
+
+```powershell
+git clone https://github.com/jbenja19/analisis-geoespacial-codip.git
+cd analisis-geoespacial-codip
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+Copy-Item .env.example .env
+```
+
+### Linux/macOS
 
 ```bash
-# 1. Clonar el repositorio
-git clone https://github.com/<tu-usuario>/analisis-geoespacial-codip.git
+git clone https://github.com/jbenja19/analisis-geoespacial-codip.git
 cd analisis-geoespacial-codip
-
-# 2. Crear entorno virtual
 python -m venv .venv
-.venv\Scripts\activate      # Windows
-# source .venv/bin/activate  # Linux/Mac
-
-# 3. Instalar dependencias
-pip install -r requirements.txt
-
-# 4. Configurar variables de entorno
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
 cp .env.example .env
-
-# 5. (Opcional) Instalar hooks de pre-commit
-pre-commit install
 ```
 
----
+## Validaciones
 
-## Stack Tecnologico
-
-| Categoria              | Herramientas                                      |
-|------------------------|---------------------------------------------------|
-| Lenguaje               | Python 3.10+                                      |
-| Geoespacial            | GeoPandas, Shapely, Folium, PyProj, GDAL          |
-| Analisis de datos      | Pandas, NumPy, SciPy                              |
-| Machine Learning       | Scikit-learn, HDBSCAN                             |
-| Visualizacion          | Matplotlib, Seaborn, Plotly, Kepler.gl            |
-| Notebooks              | JupyterLab                                        |
-| Versionado de datos    | DVC                                               |
-| Calidad de codigo      | Ruff, Black, pre-commit                           |
-| Documentacion          | Markdown / LaTeX (paper)                          |
-
----
-
-## Metodologia (Resumen)
-
-```
-Recoleccion de Datos
-    --> Preprocesamiento y Limpieza
-        --> Feature Engineering Geoespacial
-            --> Analisis Exploratorio (EDA)
-                --> Clustering / Segmentacion
-                    --> Validacion y Evaluacion
-                        --> Visualizacion Cartografica
-                            --> Redaccion del Paper
+```bash
+python -m pytest tests/ -v
+python -m ruff check src/ tests/
+python -m black --check src/ tests/
 ```
 
----
+Los mismos gates se ejecutan en GitHub Actions para cambios hacia `master`.
 
-## Equipo
+## Stack actual
 
-| Nombre         | Rol                          |
-|----------------|------------------------------|
-| CODIP Team     | Investigacion y Desarrollo   |
+| Área | Herramientas |
+|---|---|
+| Datos | Pandas, NumPy, SciPy, PyArrow |
+| Geoespacial | GeoPandas, Shapely, PyProj, Folium, Contextily |
+| Machine Learning | Scikit-learn, HDBSCAN |
+| Visualización | Matplotlib, Seaborn, Plotly |
+| Notebooks | JupyterLab |
+| Calidad | pytest, Ruff, Black, pre-commit |
+| Documentación | Markdown / LaTeX |
 
----
+## Flujo metodológico
+
+```text
+Perfilado y contrato de datos
+    -> control de coordenadas y CRS
+        -> limpieza y feature engineering
+            -> EDA espacial
+                -> clustering candidato
+                    -> validación interna + estabilidad + coherencia espacial
+                        -> análisis de sensibilidad
+                            -> reporte/paper
+```
+
+La metodología detallada está en [`docs/methodology.md`](docs/methodology.md) y el
+esquema canónico provisional en
+[`docs/data_dictionary.md`](docs/data_dictionary.md).
+
+## Gobernanza de datos
+
+- No subir datos crudos, credenciales, tokens ni exportaciones de sistemas internos.
+- `.env` está ignorado; `.env.example` solo contiene placeholders.
+- Antes de incorporar una fuente real, documentar propietario, grano, fecha de corte,
+  permisos de uso y correspondencia con el esquema canónico.
+
+> **Importante:** este repositorio es actualmente público. No debe contener datos,
+> credenciales, documentación confidencial ni propiedad intelectual interna que no
+> esté autorizada para publicación.
 
 ## Licencia
 
-Este proyecto esta bajo la licencia [MIT](LICENSE).
-
----
-
-## Contacto
-
-Para consultas, abrir un [Issue](https://github.com/<tu-usuario>/analisis-geoespacial-codip/issues) en este repositorio.
+El repositorio incluye una licencia MIT. Si el trabajo, código o metodología debe
+quedar bajo titularidad o restricciones internas de CODIP, la licencia y la
+visibilidad del repositorio deben revisarse antes de publicar contenido sustantivo.
