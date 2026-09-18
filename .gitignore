@@ -23,6 +23,18 @@ data/processed/*
 *.prj
 *.gpkg
 
+# Paquetes comprimidos
+*.7z
+*.zip
+*.rar
+*.tar.gz
+
+# Excepciones autorizadas para el Estudio La Victoria
+!data/raw/proyectos_la_victoria_sep25.csv
+!data/raw/proyectos_la_victoria_sep25.xlsx
+!data/processed/informacion_oferta_proyectos_activos_la_victoria_5_clusters.xlsx
+!data/processed/informacion_oferta_proyectos_la_victoria_segmentacion.xlsx
+
 # ==========================================
 # ENTORNOS VIRTUALES
 # ==========================================
