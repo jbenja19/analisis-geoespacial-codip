@@ -26,7 +26,3 @@ analysis:
   unit_of_analysis: "proyectos_inmobiliarios_la_victoria"
   temporal_scope: "septiembre_2025"
   methodology: "clustering_kmeans_pca_and_embeddings_hdbscan"
-
-logging:
-  level: INFO
-  format: "{time} | {level} | {message}"

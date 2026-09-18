@@ -12,6 +12,7 @@ def test_governance_authorities_exist() -> None:
         "CONTRIBUTING.md",
         "docs/README.md",
         "docs/CURRENT_STATE.md",
+        "docs/LINEAGE.md",
         "docs/DATA_POLICY.md",
         "docs/VALIDATION.md",
         "docs/archive/README.md",
