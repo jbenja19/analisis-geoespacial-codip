@@ -1,1 +1,1 @@
-"""Futuras rutinas de ingesta, validación y transformación basadas en fuentes reales."""
+"""Módulo de ingesta, validación y transformación de datos reproducibles."""

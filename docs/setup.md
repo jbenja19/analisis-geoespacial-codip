@@ -21,14 +21,12 @@ python -m pip install -r requirements-dev.txt
 
 ```powershell
 .\.venv\Scripts\Activate.ps1
-if (-not (Test-Path .env)) { Copy-Item .env.example .env }
 ```
 
 ### Linux/macOS
 
 ```bash
 source .venv/bin/activate
-test -f .env || cp .env.example .env
 ```
 
 ## Pre-commit

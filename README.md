@@ -4,7 +4,7 @@ Proyecto reproducible de análisis geoespacial y segmentación de oferta inmobil
 
 ## Estado actual
 
-La fuente de verdad del estado vigente es [`docs/CURRENT_STATE.md`](docs/CURRENT_STATE.md). El mapa de documentación está en [`docs/README.md`](docs/README.md).
+La fuente de verdad del estado vigente es [`docs/CURRENT_STATE.md`](docs/CURRENT_STATE.md). La autoridad sobre procedencia de datos y entregables es [`docs/LINEAGE.md`](docs/LINEAGE.md). El mapa de documentación está en [`docs/README.md`](docs/README.md).
 
 Actualmente el repositorio contiene:
 
@@ -12,6 +12,7 @@ Actualmente el repositorio contiene:
 - configuración geoespacial con WGS84 como CRS de fuente y UTM 18S para análisis;
 - notebook de modelado en `notebooks/04_modeling/01_cluster_proyectos_la_victoria.ipynb`;
 - resultados procesados y material cartográfico/reportes del estudio;
+- trazabilidad y gaps formalizados en `docs/LINEAGE.md`;
 - tests estructurales y de contrato del dataset fuente.
 
 La presencia de un notebook o un output no implica por sí sola que el resultado sea una autoridad metodológica certificada. `CURRENT_STATE.md` distingue lo vigente de lo histórico o pendiente.
@@ -51,6 +52,7 @@ analisis-geoespacial-codip/
 ├── docs/
 │   ├── README.md
 │   ├── CURRENT_STATE.md
+│   ├── LINEAGE.md
 │   ├── project_workflow.md
 │   ├── DATA_POLICY.md
 │   ├── VALIDATION.md

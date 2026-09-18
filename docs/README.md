@@ -5,6 +5,7 @@ Este directorio separa estado vigente, proceso, decisiones e historia para evita
 | Necesito entender... | Fuente |
 |---|---|
 | Qué existe y es vigente hoy | [CURRENT_STATE.md](CURRENT_STATE.md) |
+| De dónde viene cada dato y output (provenance/lineage) | [LINEAGE.md](LINEAGE.md) |
 | Cómo se ejecuta el trabajo analítico | [project_workflow.md](project_workflow.md) |
 | Cómo instalar y validar localmente | [setup.md](setup.md) |
 | Qué datos pueden versionarse | [DATA_POLICY.md](DATA_POLICY.md) |

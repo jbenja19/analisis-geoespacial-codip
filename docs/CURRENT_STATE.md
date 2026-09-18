@@ -38,7 +38,7 @@ Contrato: `schemas/source/proyectos_la_victoria_sep25.yaml`.
 
 El repositorio también contiene una versión XLSX de la fuente y datasets procesados del estudio. Su presencia en Git es una excepción explícita; no autoriza añadir nuevos datos reales. Ver `DATA_POLICY.md`.
 
-## 3. Flujo de datos
+## 3. Flujo de datos y lineage
 
 ```text
 source
@@ -50,6 +50,8 @@ source
 ```
 
 `raw` es inmutable. `interim` debe ser regenerable. `processed` debe declarar grano y lineage cuando se formalice una transformación reusable.
+
+La autoridad vigente sobre trazabilidad, relaciones verificadas y gaps es [`docs/LINEAGE.md`](LINEAGE.md).
 
 ## 4. Análisis presente
 
@@ -83,7 +85,17 @@ El gate base del repositorio cubre:
 
 - Ruff sobre `src/` y `tests/`;
 - Black check sobre `src/` y `tests/`;
-- pytest sobre tests estructurales, contrato de fuente y gobernanza del repo.
+- pytest sobre tests estructurales, contrato de fuente, política de datos y gobernanza del repo.
+
+Estado de reproducibilidad actual por componente:
+
+| Componente | Estado de Reproducibilidad | Evidencia / Autoridad |
+|---|---|---|
+| Fuente y contrato raw | **REPRODUCIBLE** | `schemas/source/` + `tests/test_source_contract.py` |
+| Notebook exploratorio | **HISTÓRICO / NO AUTOMATIZADO** | `notebooks/04_modeling/` (salidas cacheadas, sin runner CI) |
+| Processed históricos (`.xlsx`) | **HISTÓRICO / UNKNOWN** | `data/processed/` (sin script generador en repo, ver `LINEAGE.md`) |
+| Reporte PDF y cartografía | **ENTREGABLE EXTERNO** | `reports/` (generados vía software GIS/diseño externo) |
+| Lógica reusable en `src/` | **SCAFFOLD / TARGET** | `src/` (módulos base preparados para migración progresiva) |
 
 No se declara aquí ejecución exitosa de un notebook completo ni reproducción end-to-end de todos los outputs a menos que exista evidencia específica de esa ejecución.
 

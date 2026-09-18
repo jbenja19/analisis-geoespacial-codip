@@ -1,1 +1,4 @@
-"""Análisis y modelado futuros; el scaffold no preselecciona métodos."""
+"""Módulo de análisis y modelado reproducible.
+
+Alberga rutinas estables migradas desde notebooks exploratorios.
+"""

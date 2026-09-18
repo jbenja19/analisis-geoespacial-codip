@@ -22,6 +22,4 @@ jupyterlab>=4.0
 ipywidgets>=8.0
 
 # Configuración y utilidades
-python-dotenv>=1.0
 pyyaml>=6.0
-loguru>=0.7
