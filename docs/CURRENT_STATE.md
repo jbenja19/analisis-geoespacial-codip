@@ -91,10 +91,10 @@ Estado de reproducibilidad actual por componente:
 
 | Componente | Estado de Reproducibilidad | Evidencia / Autoridad |
 |---|---|---|
-| Fuente y contrato raw | **REPRODUCIBLE** | `schemas/source/` + `tests/test_source_contract.py` |
+| Fuente y contrato raw | **VERSIONED + CONTRACT-VALIDATED** | `schemas/source/` + `tests/test_source_contract.py` (fuente versionada, schema y tests; no demuestra reproducción de adquisición upstream) |
 | Notebook exploratorio | **HISTÓRICO / NO AUTOMATIZADO** | `notebooks/04_modeling/` (salidas cacheadas, sin runner CI) |
 | Processed históricos (`.xlsx`) | **HISTÓRICO / UNKNOWN** | `data/processed/` (sin script generador en repo, ver `LINEAGE.md`) |
-| Reporte PDF y cartografía | **ENTREGABLE EXTERNO** | `reports/` (generados vía software GIS/diseño externo) |
+| Reporte PDF y cartografía | **ENTREGABLE EXTERNO / UNKNOWN** | `reports/` (productor/herramienta UNKNOWN; sin proyecto fuente ni pipeline en repo) |
 | Lógica reusable en `src/` | **SCAFFOLD / TARGET** | `src/` (módulos base preparados para migración progresiva) |
 
 No se declara aquí ejecución exitosa de un notebook completo ni reproducción end-to-end de todos los outputs a menos que exista evidencia específica de esa ejecución.

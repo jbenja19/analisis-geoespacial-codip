@@ -62,6 +62,22 @@ def test_csv_header_matches_schema_columns(
     )
 
 
+def test_every_row_has_exact_column_count(
+    source_schema: dict[str, Any],
+    parsed_csv_data: tuple[list[str], list[list[str]]],
+) -> None:
+    """Valida que cada fila del CSV tenga la cantidad exacta de campos del schema."""
+    header, rows = parsed_csv_data
+    expected_field_count = len(source_schema["columns"])
+    assert len(header) == expected_field_count
+
+    for row_idx, r in enumerate(rows, start=1):
+        assert len(r) == expected_field_count, (
+            f"Fila {row_idx} contiene {len(r)} campos; "
+            f"se esperaban {expected_field_count}"
+        )
+
+
 def test_record_count_matches_declared(
     source_schema: dict[str, Any],
     parsed_csv_data: tuple[list[str], list[list[str]]],

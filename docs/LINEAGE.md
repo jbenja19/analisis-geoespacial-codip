@@ -1,7 +1,7 @@
 # Lineage de Datos y Artefactos
 
-> Status: CURRENT  
-> Fecha de actualización: 2026-09-18  
+> Status: CURRENT
+> Fecha de actualización: 2026-09-18
 > Autoridad: Este documento es la autoridad sobre la procedencia, transformaciones conocidas y gaps de trazabilidad de los datos y outputs en el repositorio.
 
 ---
@@ -29,8 +29,8 @@ data/raw/proyectos_la_victoria_sep25.xlsx ───(UNKNOWN)────► [Sin
 [Proceso o script generador no documentado] ───(UNKNOWN)────► data/processed/..._segmentacion.xlsx
 
 [ Entregables y Reportes ]
-[Herramienta externa de diseño / GIS] ───(UNKNOWN)────► reports/Estudio de Mercado...pdf
-[Composición de impresión externa / QGIS] ───(UNKNOWN)────► reports/figures/estudio_lar/Layout *.png
+[Productor / herramienta: UNKNOWN] ───────────(UNKNOWN)────► reports/Estudio de Mercado...pdf
+[Productor / herramienta: UNKNOWN] ───────────(UNKNOWN)────► reports/figures/estudio_lar/Layout *.png
 ```
 
 ---
@@ -49,16 +49,17 @@ data/raw/proyectos_la_victoria_sep25.xlsx ───(UNKNOWN)────► [Sin
 
 ### 3.2 Transformaciones Conocidas
 
-- **Limpieza y selección exploratoria**:
-  - Filtro de proyectos activos (`activo == 1`, reduciendo de 43 a 30 registros) en el notebook (`VERIFIED`).
-  - Estandarización de variables con `StandardScaler` en el notebook (`VERIFIED`).
-  - Reducción dimensional PCA (5 componentes) en el notebook (`VERIFIED`).
+- **Limpieza y selección exploratoria en el notebook**:
+  - Filtro de proyectos activos (`activo == 1`, reduciendo de 43 a 30 registros) (`VERIFIED`).
+  - Estandarización de 8 variables cuantitativas/espaciales con `StandardScaler` (`VERIFIED`).
+  - Reducción dimensional PCA: Configurado con 3 componentes (`pca = PCA(n_components=3)`). El slicing posterior `PCA_components.iloc[:, :5]` selecciona efectivamente los 3 componentes existentes sin alterar la dimensionalidad (`VERIFIED`).
+  - Embeddings de texto: Modelo `SentenceTransformer("thenlper/gte-small")` aplicado sobre texto concatenado que incluye latitud, longitud, cantidad de pisos, unidades totales, dormitorios promedio, área promedio y precio por m². Los campos `Proyecto` e `Inmobiliaria` aparecen comentados en el código y no forman parte del texto de entrada (`VERIFIED`).
 
 ### 3.3 Datasets en `data/processed/`
 
 1. **`data/processed/informacion_oferta_proyectos_activos_la_victoria_5_clusters.xlsx`**:
    - **Estado**: `UNKNOWN`.
-   - **Detalle**: Libro con 6 hojas a nivel tipológico (83 filas por cluster). No es producido por el código actual del notebook (que sólo intentaba escribir un CSV a nivel proyecto).
+   - **Detalle**: Libro con 7 hojas (`Proyectos activos La Victoria`, `Clusters`, `Proyectos cluster 0`, `Proyectos  cluster 1`, `Proyectos cluster 2`, `Proyectos cluster 3`, `Proyectos cluster 4`). Contiene desgloses tipológicos donde las hojas por cluster aplican filas ocultas (`hidden="1"`). No es producido por el código actual del notebook.
 2. **`data/processed/informacion_oferta_proyectos_la_victoria_segmentacion.xlsx`**:
    - **Estado**: `UNKNOWN`.
    - **Detalle**: Dataset de 121 registros a nivel tipológico. No existe en el repositorio código que lo genere ni que lo consuma.
@@ -69,21 +70,23 @@ data/raw/proyectos_la_victoria_sep25.xlsx ───(UNKNOWN)────► [Sin
 - **`notebooks/04_modeling/01_cluster_proyectos_la_victoria.ipynb`**:
   - **Entrada**: `data/raw/proyectos_la_victoria_sep25.csv` (`VERIFIED`).
   - **Salida intentada**: `../../data/processed/df_activos_cluster_5_la_victoria.csv` (No versionado en el repositorio).
-  - **Salida persistida en disco**: Ninguna.
+  - **Salida versionada en el repositorio**: Ninguna correspondiente a ese nombre.
 
 ### 3.5 Reportes y Figuras
 
 - **Informe PDF (`reports/Estudio de Mercado y Analisis Competitivo para Proyectos Inmobiliarios en La Victoria.pdf`)**:
-  - **Estado**: `UNKNOWN`. Maquetado externo.
+  - **Estado**: `UNKNOWN`.
+  - **Productor / herramienta**: `UNKNOWN`. El repositorio contiene el artefacto final, pero no contiene proyecto fuente, script ni metadata suficiente para demostrar qué herramienta lo generó.
 - **Mapas (`reports/figures/estudio_lar/Layout 1.png` a `Layout 5.png`)**:
-  - **Estado**: `UNKNOWN`. Generados externamente mediante layouts cartográficos (GIS).
+  - **Estado**: `UNKNOWN`.
+  - **Productor / herramienta**: `UNKNOWN`. El nombre `Layout X.png` describe el nombre observado en el archivo, pero no permite inferir demostradamente la herramienta productora. El repositorio no contiene proyectos de cartografía ni scripts generadores.
 
 ---
 
 ## 4. Gaps de Lineage Identificados
 
 1. **Gap Raw CSV vs Raw XLSX**: No se cuenta con el registro de exportación que indique si el CSV fue generado a partir del XLSX o viceversa.
-2. **Gap Raw → Processed XLSX**: No existe script ejecutable que transforme la fuente raw (43 proyectos) o fuentes de tipologías primarias en los archivos `_5_clusters.xlsx` (83 filas tipológicas por cluster) ni `_segmentacion.xlsx` (121 filas tipológicas).
+2. **Gap Raw → Processed XLSX**: No existe script ejecutable que transforme la fuente raw (43 proyectos) o fuentes de tipologías primarias en los archivos `_5_clusters.xlsx` ni `_segmentacion.xlsx`.
 3. **Gap Modelado → Processed**: El archivo CSV resultante del clustering en el notebook (`df_activos_cluster_5_la_victoria.csv`) no fue persistido ni integrado como insumo downstream.
 4. **Gap Analysis → Reports**: No existe un pipeline automatizado para compilar las figuras ni el informe PDF a partir del código del repositorio.
 
@@ -94,19 +97,15 @@ data/raw/proyectos_la_victoria_sep25.xlsx ───(UNKNOWN)────► [Sin
 El flujo objetivo del repositorio para cuando se formalice la analítica es:
 
 ```text
-source (recepción externa documentada)
-  │
-  ▼ (copia inmutable auditada)
-data/raw/
-  │
-  ▼ (validación con schema en CI y perfilado en src/data/)
-data/interim/ (tipologías normalizadas, joins con cartografía oficial)
-  │
-  ▼ (transformación tipológica / proyecto reproducible en src/data/)
-data/processed/ (datasets analíticos con grain, CRS y contrato formal)
-  │
-  ▼ (modelado y segmentación en src/analysis/ y src/geospatial/)
-reports/ (figuras generadas programáticamente e informes reproducibles)
+source
+→ raw
+→ validation / profiling
+→ interim (solo cuando una transformación intermedia sea necesaria)
+→ processed
+→ analysis / geospatial
+→ reports
 ```
 
-> **Nota**: Este flujo está catalogado como `TARGET`. No se asumirá implementado hasta que existan módulos ejecutables en `src/` que garanticen su reproducción determinista.
+- La capa `interim` es optativa: no obliga a materializar un dataset físico intermedio si una transformación directa puede producir un `processed` reproducible sin perder auditabilidad ni claridad.
+- Cada etapa `processed` deberá contar con grano, CRS y contrato formal documentado.
+- Este flujo está catalogado como `TARGET`. No se asumirá implementado hasta que existan módulos ejecutables en `src/` que garanticen su reproducción determinista.
