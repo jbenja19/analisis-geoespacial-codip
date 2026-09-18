@@ -1,8 +1,8 @@
 project:
   name: analisis-geoespacial-codip
-  version: "0.1.2"
-  stage: scaffold
-  description: "Estructura base para iniciar el análisis cuando lleguen las fuentes raw"
+  version: "0.2.0"
+  stage: exploratory_analysis
+  description: "Análisis geoespacial y clustering de oferta inmobiliaria en La Victoria (Estudio Grupo Lar / CODIP)"
 
 paths:
   data_raw: data/raw
@@ -19,13 +19,13 @@ raw_data:
   overwrite_allowed: false
 
 geospatial:
-  source_crs: null
-  analysis_crs: null
+  source_crs: "EPSG:4326"
+  analysis_crs: "EPSG:32718"
 
 analysis:
-  unit_of_analysis: null
-  temporal_scope: null
-  methodology: null
+  unit_of_analysis: "proyectos_inmobiliarios_la_victoria"
+  temporal_scope: "septiembre_2025"
+  methodology: "clustering_kmeans_pca_and_embeddings_hdbscan"
 
 logging:
   level: INFO

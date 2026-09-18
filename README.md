@@ -1,12 +1,16 @@
-# Análisis Geoespacial - CODIP
+# Análisis Geoespacial - CODIP: Estudio Inmobiliario La Victoria (Grupo Lar)
 
-> Scaffold de proyecto para comenzar el análisis desde cero cuando estén disponibles las fuentes raw.
+> Proyecto de análisis geoespacial, perfilado y segmentación de oferta inmobiliaria en el distrito de La Victoria (Lima, Perú).
 
 ## Estado actual
 
-**Solo estructura. No hay análisis implementado ni resultados analíticos.**
+**Fase: Análisis Exploratorio y Modelado (Septiembre 2025).**
 
-El repositorio define organización, convenciones, configuración, trazabilidad y controles mínimos de calidad. Las decisiones sobre limpieza, variables, CRS de análisis, feature engineering, métodos estadísticos, clustering, modelos, visualizaciones y métricas se tomarán únicamente después de inspeccionar las fuentes reales.
+El repositorio ha integrado las fuentes primarias del *Estudio de Mercado y Análisis Competitivo para Proyectos Inmobiliarios en La Victoria*:
+- **Datos raw (`data/raw/`):** Inventario de 43 proyectos residenciales con coordenadas espaciales, tipologías, áreas, precios por m² y tickets.
+- **Contratos (`schemas/source/`):** Contrato de datos y tipos formalizado en `proyectos_la_victoria_sep25.yaml`.
+- **Modelado y Clustering (`notebooks/04_modeling/`):** Notebook reproducible (`01_cluster_proyectos_la_victoria.ipynb`) con clustering K-Means + PCA y segmentación semántica con embeddings (`thenlper/gte-small`) + UMAP + HDBSCAN.
+- **Reportes y Cartografía (`reports/`):** Documento ejecutivo del estudio de mercado y layouts de zonificación cartográfica en `reports/figures/estudio_lar/`.
 
 ## Principios
 
@@ -103,7 +107,7 @@ python -m black --check src/ tests/
 python -m pytest tests/ -v
 ```
 
-Los tests actuales verifican la estructura del scaffold; no prueban resultados analíticos porque todavía no existen.
+Los tests actuales verifican la estructura del repositorio, la presencia e integridad de las fuentes raw del estudio La Victoria, la configuración activa y la conformidad con los esquemas de datos.
 
 ## Nota de seguridad
 

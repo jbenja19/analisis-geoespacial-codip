@@ -1,0 +1,70 @@
+name: proyectos_la_victoria_sep25
+description: "Inventario de proyectos inmobiliarios en el distrito de La Victoria (Lima, Perú), correspondiente al Estudio de Mercado de Grupo Lar (Septiembre 2025)."
+source: "Estudio La Victoria GRUPO LAR / CODIP"
+format: csv
+encoding: latin1
+record_count: 43
+primary_key:
+  - Inmobiliaria
+  - Proyecto
+
+geospatial:
+  crs: "EPSG:4326"
+  longitude_column: "Longitud"
+  latitude_column: "Latitud"
+
+columns:
+  - name: "Inmobiliaria"
+    type: string
+    nullable: false
+    description: "Nombre de la empresa desarrolladora o inmobiliaria."
+
+  - name: "Proyecto"
+    type: string
+    nullable: false
+    description: "Nombre comercial del proyecto inmobiliario."
+
+  - name: "Longitud"
+    type: float
+    nullable: false
+    description: "Coordenada geográfica longitud (WGS84, EPSG:4326)."
+
+  - name: "Latitud"
+    type: float
+    nullable: false
+    description: "Coordenada geográfica latitud (WGS84, EPSG:4326)."
+
+  - name: "cant und totales"
+    type: integer
+    nullable: false
+    description: "Cantidad total de unidades proyectadas en el desarrollo."
+
+  - name: "cnat de pisos"
+    type: integer
+    nullable: false
+    description: "Cantidad de pisos de la edificación (conserva el nombre original de la fuente raw)."
+
+  - name: "prom_p dorm"
+    type: float
+    nullable: false
+    description: "Promedio ponderado de dormitorios por unidad."
+
+  - name: "prom_p area"
+    type: float
+    nullable: false
+    description: "Promedio ponderado de área útil (m²) por unidad."
+
+  - name: "prom_p ticket"
+    type: string
+    nullable: false
+    description: "Ticket promedio en soles (formato texto con separador de miles, ej. '311,462')."
+
+  - name: "prom_p pxm2"
+    type: string
+    nullable: false
+    description: "Precio promedio por m² en soles (formato texto con separador de miles, ej. '6,063')."
+
+  - name: "activo"
+    type: integer
+    nullable: false
+    description: "Indicador binario de estado del proyecto (1 = activo en venta, 0 = inactivo / agotado)."
