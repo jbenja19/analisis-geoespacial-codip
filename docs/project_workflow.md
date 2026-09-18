@@ -1,91 +1,108 @@
 # Workflow del proyecto
 
-Este documento define **el orden de trabajo**, no una metodología analítica.
+Este documento define el orden de trabajo analítico. No prescribe una metodología única.
 
 ## Fase 0 — Recepción
 
-- Colocar una copia exacta de cada fuente en `data/raw/`.
-- No editar, renombrar internamente ni sobrescribir el contenido de los archivos raw.
-- Registrar origen, fecha de recepción, responsable, periodo cubierto y restricciones de uso.
+- colocar copia exacta de cada fuente en `data/raw/` solo si su política de publicación lo permite;
+- no editar ni sobrescribir raw;
+- registrar origen, fecha, responsable, periodo y restricciones;
+- aplicar `DATA_POLICY.md`.
 
-## Fase 1 — Inventario de fuentes
+## Fase 1 — Inventario
 
 Antes de transformar:
 
 - identificar archivos/tablas/endpoints;
-- registrar formatos y tamaños;
-- identificar frecuencia y cobertura temporal;
-- identificar granularidad aparente;
-- registrar documentación disponible;
-- registrar campos de ubicación existentes;
-- detectar si existe un identificador estable.
-
-No se construye un modelo ni se define una taxonomía en esta fase.
+- formato, tamaño y cobertura;
+- grain aparente;
+- campos geográficos;
+- identificadores candidatos;
+- documentación y restricciones disponibles.
 
 ## Fase 2 — Perfilado técnico
 
-Para cada fuente real:
+Para cada fuente:
 
 - tipos observados;
-- porcentaje de nulos;
+- nulos;
 - cardinalidad;
 - duplicados;
-- rangos y valores extremos;
-- codificaciones;
+- rangos/outliers;
+- encoding;
 - consistencia temporal;
-- calidad de campos geográficos;
-- candidatos a llave primaria/foránea.
+- calidad geográfica;
+- llaves candidatas.
 
-El perfilado debe generar evidencia, no corregir silenciosamente la data.
+El perfilado genera evidencia; no corrige silenciosamente.
 
-## Fase 3 — Diccionario y contratos
+## Fase 3 — Contratos y significado
 
-Completar `docs/data_dictionary_template.md` y crear los contratos necesarios en `schemas/source/`.
+Crear/actualizar `schemas/source/` y documentar:
 
-Solo después de esta fase se puede decidir si hace falta un esquema canónico en `schemas/canonical/`.
+- grain;
+- keys;
+- unidades;
+- significado de campos;
+- cobertura temporal;
+- CRS;
+- relaciones observadas.
 
-## Fase 4 — Diseño de transformaciones
+Crear un esquema canónico solo si varias fuentes necesitan armonización real.
 
-Con la semántica ya entendida:
+## Fase 4 — Transformaciones
 
-- definir reglas de limpieza;
-- definir joins;
-- definir tratamiento de duplicados y nulos;
-- definir unidades y monedas;
-- definir reglas temporales;
-- definir reglas geoespaciales y CRS;
-- documentar cada decisión no trivial en `docs/decisions/`.
+Definir explícitamente:
 
-La implementación reutilizable debe ir en `src/`.
+- limpieza;
+- joins y cardinalidades;
+- deduplicación/nulos;
+- unidades/monedas;
+- reglas temporales;
+- reglas geoespaciales/CRS.
+
+La lógica reusable vive en `src/`. Una decisión durable que cambie significado debe registrarse en `docs/decisions/`.
 
 ## Fase 5 — Dataset analítico
-
-Crear capas reproducibles:
 
 ```text
 raw → interim → processed
 ```
 
-`raw` nunca se modifica. `interim` puede regenerarse. `processed` debe tener un grano explícito y trazabilidad hacia las fuentes.
+- raw: inmutable;
+- interim: regenerable;
+- processed: grain y lineage explícitos.
 
 ## Fase 6 — Exploración
 
-Recién aquí comienza el EDA tabular y geoespacial. Los notebooks pueden utilizarse para exploración, pero cualquier transformación necesaria para reproducir resultados debe migrar a `src/`.
+Los notebooks sirven para EDA y experimentación. Si una transformación es necesaria para reproducir un resultado, debe migrar a código reusable antes de tratarla como proceso estable.
 
 ## Fase 7 — Decisión metodológica
 
-Elegir métodos en función de:
+Seleccionar métodos según:
 
-- pregunta de investigación o negocio;
+- pregunta;
 - unidad de análisis;
-- estructura real de las variables;
+- estructura de variables;
 - dimensión temporal;
 - cobertura espacial;
 - tamaño muestral;
-- sesgos y limitaciones de las fuentes.
+- sesgos/limitaciones.
 
-El scaffold no preselecciona clustering, regresión, ML ni ninguna otra técnica.
+La metodología vigente de un estudio no debe generalizarse automáticamente a otro.
 
 ## Fase 8 — Análisis, validación y outputs
 
-Solo después de las fases anteriores se implementan análisis/modelos, validaciones y productos finales. Figuras, tablas y exportaciones van en `reports/`.
+Ejecutar análisis/modelos y generar outputs en `reports/`.
+
+La validación se selecciona según `VALIDATION.md`. Cambiar un output publicado o metodología material exige validación L3 o evidencia equivalente.
+
+## Fase 9 — Estado y cierre
+
+Cuando el estado vigente cambie:
+
+- actualizar `CURRENT_STATE.md`;
+- registrar ADR solo si hubo una decisión material;
+- conservar evidencia histórica relevante en `docs/reports/`;
+- mover documentación superseded a `docs/archive/` cuando corresponda;
+- no duplicar la misma autoridad en múltiples documentos.

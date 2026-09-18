@@ -29,7 +29,8 @@ data/processed/*
 *.rar
 *.tar.gz
 
-# Excepciones autorizadas para el Estudio La Victoria
+# Excepciones CURRENT ya versionadas para el estudio La Victoria.
+# No ampliar esta lista sin aplicar docs/DATA_POLICY.md.
 !data/raw/proyectos_la_victoria_sep25.csv
 !data/raw/proyectos_la_victoria_sep25.xlsx
 !data/processed/informacion_oferta_proyectos_activos_la_victoria_5_clusters.xlsx
@@ -70,7 +71,7 @@ build/
 !.env.example
 
 # ==========================================
-# ARTEFACTOS DE MODELOS FUTUROS
+# ARTEFACTOS DE MODELOS
 # ==========================================
 *.pkl
 *.joblib

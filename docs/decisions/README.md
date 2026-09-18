@@ -1,8 +1,23 @@
 # Registro de decisiones
 
-Usar este directorio para documentar decisiones técnicas o metodológicas que aparezcan después de inspeccionar las fuentes reales.
+Este directorio contiene decisiones técnicas o metodológicas materiales y durables.
 
-Formato sugerido por archivo:
+No abras un ADR para ajustes locales, documentación, renombres o cambios reversibles que no alteren una frontera analítica.
+
+## Cuándo crear uno
+
+Un ADR es apropiado si cambia de forma material:
+
+- grain o keys;
+- estrategia de joins;
+- reglas semánticas;
+- CRS de análisis;
+- metodología principal;
+- tratamiento de una fuente;
+- arquitectura de transformación;
+- política de publicación de datos.
+
+## Formato
 
 ```text
 # ADR-XXX: título
@@ -13,6 +28,14 @@ Evidencia:
 Decisión:
 Alternativas consideradas:
 Consecuencias:
+Validación:
+Supersede / superseded by:
 ```
 
-No crear una decisión metodológica sin evidencia de la data o del requerimiento que la motive.
+## Lifecycle
+
+- **propuesta**: todavía no es autoridad CURRENT;
+- **aceptada**: decisión vigente;
+- **reemplazada**: permanece como historia, pero no gobierna el presente.
+
+`docs/CURRENT_STATE.md` responde qué está vigente hoy. Un ADR explica por qué se tomó una decisión.

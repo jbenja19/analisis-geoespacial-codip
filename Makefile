@@ -1,4 +1,4 @@
-.PHONY: install install-dev env clean lint test notebooks
+.PHONY: install install-dev env clean lint test validate notebooks
 
 ## Instalar dependencias de trabajo
 install:
@@ -21,10 +21,13 @@ lint:
 	python -m ruff check src/ tests/
 	python -m black --check src/ tests/
 
-## Ejecutar solo tests estructurales actuales
+## Ejecutar tests de estructura, contratos y gobernanza
 test:
 	python -m pytest tests/ -v
 
-## Abrir JupyterLab cuando haya trabajo exploratorio
+## Gate local base equivalente al CI actual
+validate: lint test
+
+## Abrir JupyterLab
 notebooks:
 	python -m jupyter lab
